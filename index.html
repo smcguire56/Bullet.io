@@ -26,6 +26,7 @@
             color: white;
             font-size: 18px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            display: none;
         }
         #fireMode {
             position: absolute;
@@ -35,6 +36,7 @@
             font-size: 24px;
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            display: none;
         }
         #controls {
             position: absolute;
@@ -43,10 +45,223 @@
             color: #aaa;
             font-size: 14px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            display: none;
+        }
+        
+        /* Main Menu */
+        #mainMenu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        #mainMenu h1 {
+            font-size: 72px;
+            color: #00ff00;
+            text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+            50% { text-shadow: 0 0 30px #00ff00, 0 0 60px #00ff00, 0 0 80px #00ff00; }
+        }
+        
+        #mainMenu p {
+            font-size: 24px;
+            color: #aaa;
+            margin-bottom: 40px;
+        }
+        
+        .menu-input {
+            margin: 20px 0;
+        }
+        
+        .menu-input label {
+            font-size: 20px;
+            color: white;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .menu-input input {
+            font-size: 18px;
+            padding: 10px 20px;
+            width: 200px;
+            border: 2px solid #00ff00;
+            background: #1a1a2e;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .menu-button {
+            font-size: 24px;
+            padding: 15px 40px;
+            margin: 10px;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .menu-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0, 255, 0, 0.6);
+        }
+        
+        .menu-button:active {
+            transform: translateY(0);
+        }
+        
+        /* Pause Menu */
+        #pauseMenu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        #pauseMenu h2 {
+            font-size: 64px;
+            color: #ffaa00;
+            text-shadow: 0 0 20px #ffaa00;
+            margin-bottom: 40px;
+        }
+        
+        /* Victory Screen */
+        #victoryScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        #victoryScreen h1 {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px currentColor;
+            animation: victoryPulse 2s ease-in-out infinite;
+        }
+        
+        #victoryScreen.green-wins h1 {
+            color: #00ff00;
+        }
+        
+        #victoryScreen.red-wins h1 {
+            color: #ff0000;
+        }
+        
+        @keyframes victoryPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .stats-container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px 50px;
+            border-radius: 15px;
+            border: 3px solid #ffdd00;
+            margin: 30px 0;
+        }
+        
+        .stat-row {
+            font-size: 24px;
+            color: white;
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            min-width: 400px;
+        }
+        
+        .stat-label {
+            color: #aaa;
+        }
+        
+        .stat-value {
+            color: #ffdd00;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
+    <!-- Main Menu -->
+    <div id="mainMenu">
+        <h1>ARENA SHOOTER</h1>
+        <p>50 vs 50 Tactical Warfare</p>
+        <div class="menu-input">
+            <label for="botCount">Number of Bots Per Team:</label>
+            <input type="number" id="botCount" min="1" max="100" value="50">
+        </div>
+        <button class="menu-button" onclick="startGame()">START GAME</button>
+        <p style="font-size: 16px; margin-top: 30px; color: #888;">WASD - Move | Mouse - Aim | Click - Shoot | R - Reload | Space - Change Weapon | ESC - Pause</p>
+    </div>
+    
+    <!-- Pause Menu -->
+    <div id="pauseMenu">
+        <h2>PAUSED</h2>
+        <button class="menu-button" onclick="resumeGame()">RESUME</button>
+        <button class="menu-button" onclick="restartGame()">RESTART</button>
+        <button class="menu-button" onclick="quitToMenu()">MAIN MENU</button>
+    </div>
+    
+    <!-- Victory Screen -->
+    <div id="victoryScreen">
+        <h1 id="victoryTitle">GREEN TEAM WINS!</h1>
+        <div class="stats-container">
+            <div class="stat-row">
+                <span class="stat-label">Enemies Killed:</span>
+                <span class="stat-value" id="statKills">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Deaths:</span>
+                <span class="stat-value" id="statDeaths">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Score:</span>
+                <span class="stat-value" id="statScore">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Time Survived:</span>
+                <span class="stat-value" id="statTime">0:00</span>
+            </div>
+        </div>
+        <button class="menu-button" onclick="restartGame()">PLAY AGAIN</button>
+        <button class="menu-button" onclick="quitToMenu()">MAIN MENU</button>
+    </div>
+    
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav">
+    </audio>
+    
     <canvas id="gameCanvas"></canvas>
     <div id="hud">
         <div>Health: <span id="health">100</span>/100</div>
@@ -60,10 +275,174 @@
     </div>
     <div id="fireMode">NORMAL</div>
     <div id="controls">
-        WASD - Move | Left Click - Shoot | SPACE - Change Weapon | R - Reload
+        WASD - Move | Left Click - Shoot | SPACE - Change Weapon | R - Reload | ESC - Pause
     </div>
 
     <script>
+        // Game state management
+        let gameState = 'menu'; // 'menu', 'playing', 'paused', 'victory'
+        let gameStarted = false;
+        let numBotsPerTeam = 50;
+        let animationFrameId = null;
+        let audioPlayPromise = null;
+        
+        // Game stats tracking
+        let gameStartTime = 0;
+        let enemiesKilled = 0;
+        
+        // Audio
+        const bgMusic = document.getElementById('bgMusic');
+        
+        // Safe audio play function
+        function playAudio() {
+            if (audioPlayPromise !== null) {
+                audioPlayPromise.then(() => {
+                    audioPlayPromise = bgMusic.play();
+                }).catch(e => console.log('Audio play failed:', e));
+            } else {
+                audioPlayPromise = bgMusic.play();
+                if (audioPlayPromise) {
+                    audioPlayPromise.catch(e => console.log('Audio play failed:', e));
+                }
+            }
+        }
+        
+        // Safe audio pause function
+        function pauseAudio() {
+            if (audioPlayPromise !== null) {
+                audioPlayPromise.then(() => {
+                    bgMusic.pause();
+                    audioPlayPromise = null;
+                }).catch(e => {
+                    bgMusic.pause();
+                    audioPlayPromise = null;
+                });
+            } else {
+                bgMusic.pause();
+            }
+        }
+        
+        // Menu functions
+        function startGame() {
+            numBotsPerTeam = parseInt(document.getElementById('botCount').value) || 50;
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('hud').style.display = 'block';
+            document.getElementById('fireMode').style.display = 'block';
+            document.getElementById('controls').style.display = 'block';
+            
+            gameState = 'playing';
+            gameStarted = true;
+            gameStartTime = Date.now(); // Track start time
+            enemiesKilled = 0; // Reset kills
+            
+            // Start music
+            playAudio();
+            
+            // Initialize game
+            initGame();
+            gameLoop();
+        }
+        
+        function showVictory(winningTeam) {
+            gameState = 'victory';
+            
+            // Stop game loop
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
+            // Calculate time survived
+            const timeElapsed = Math.floor((Date.now() - gameStartTime) / 1000);
+            const minutes = Math.floor(timeElapsed / 60);
+            const seconds = timeElapsed % 60;
+            const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update victory screen
+            const victoryScreen = document.getElementById('victoryScreen');
+            const victoryTitle = document.getElementById('victoryTitle');
+            
+            if (winningTeam === 'green') {
+                victoryTitle.textContent = 'GREEN TEAM WINS!';
+                victoryScreen.className = 'green-wins';
+            } else {
+                victoryTitle.textContent = 'RED TEAM WINS!';
+                victoryScreen.className = 'red-wins';
+            }
+            
+            // Update stats
+            document.getElementById('statKills').textContent = enemiesKilled;
+            document.getElementById('statDeaths').textContent = player.deathCount;
+            document.getElementById('statScore').textContent = score;
+            document.getElementById('statTime').textContent = timeString;
+            
+            // Show victory screen
+            victoryScreen.style.display = 'flex';
+            
+            // Pause music
+            pauseAudio();
+        }
+        
+        function pauseGame() {
+            if (gameState === 'playing') {
+                gameState = 'paused';
+                document.getElementById('pauseMenu').style.display = 'flex';
+                pauseAudio();
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+            }
+        }
+        
+        function resumeGame() {
+            if (gameState === 'paused') {
+                gameState = 'playing';
+                document.getElementById('pauseMenu').style.display = 'none';
+                playAudio();
+                gameLoop();
+            }
+        }
+        
+        function restartGame() {
+            gameState = 'playing';
+            document.getElementById('pauseMenu').style.display = 'none';
+            document.getElementById('victoryScreen').style.display = 'none';
+            
+            // Reset game
+            resetGame();
+            gameStartTime = Date.now(); // Reset start time
+            enemiesKilled = 0; // Reset kills
+            initGame();
+            bgMusic.currentTime = 0;
+            playAudio();
+            gameLoop();
+        }
+        
+        function quitToMenu() {
+            gameState = 'menu';
+            gameStarted = false;
+            document.getElementById('pauseMenu').style.display = 'none';
+            document.getElementById('victoryScreen').style.display = 'none';
+            document.getElementById('mainMenu').style.display = 'flex';
+            document.getElementById('hud').style.display = 'none';
+            document.getElementById('fireMode').style.display = 'none';
+            document.getElementById('controls').style.display = 'none';
+            
+            pauseAudio();
+            bgMusic.currentTime = 0;
+            
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            
+            // Fully reset the game state
+            resetGame();
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         
@@ -167,7 +546,8 @@
             respawning: false, // Track if currently respawning
             respawnX: 0, // Store respawn position
             respawnY: 0,
-            respawnTime: 0 // When respawn will complete (timestamp)
+            respawnTime: 0, // When respawn will complete (timestamp)
+            deathCount: 0 // Track number of deaths for increasing respawn time
         };
         
         // Teammates (AI-controlled green team)
@@ -324,10 +704,16 @@
                         }
                     }
                     
+                    // Check if too close to key location (center of map)
+                    const keyX = MAP_SIZE / 2;
+                    const keyY = MAP_SIZE / 2;
+                    const distToKey = Math.hypot((x + width/2) - keyX, (y + height/2) - keyY);
+                    const tooCloseToKey = distToKey < 400; // Keep 400 unit radius clear around key
+                    
                     // Check if overlaps or too close to existing walls
                     const tooCloseToWalls = hasOverlapOrTooClose(x, y, width, height);
                     
-                    if (!inGreenSpawn && !inRedSpawn && !nearDoor && !tooCloseToWalls) {
+                    if (!inGreenSpawn && !inRedSpawn && !nearDoor && !tooCloseToKey && !tooCloseToWalls) {
                         validPosition = true;
                     }
                     attempts++;
@@ -500,7 +886,7 @@
 
         // Generate teammates (Green team AI)
         function generateTeammates() {
-            const numTeammates = 3;
+            const numTeammates = numBotsPerTeam - 1; // -1 because player is part of team
             for (let i = 0; i < numTeammates; i++) {
                 const spawnPos = getSafeSpawnPositionInZone(15, greenSpawnZone);
                 
@@ -535,8 +921,8 @@
                     friction: 0.88,
                     color: '#00ff00',
                     team: 'green',
-                    targetX: 0,
-                    targetY: 0,
+                    targetX: MAP_SIZE / 2,  // Start by targeting key at center
+                    targetY: MAP_SIZE / 2,
                     shootTimer: 0,
                     hideTimer: 0,
                     stuckCounter: 0,
@@ -548,20 +934,21 @@
                     maxHealth: 100,
                     ammo: maxAmmo,
                     maxAmmo: maxAmmo,
-                    reserveAmmo: maxAmmo,
+                    reserveAmmo: 10,  // Always 10, same as player
                     isReloading: false,
                     reloadStartTime: 0,
                     reloadDuration: reloadDuration,
                     lastShotTime: 0,
                     fireRate: fireRate,
-                    weapon: randomWeapon  // New property for teammate weapon
+                    weapon: randomWeapon,  // New property for teammate weapon
+                    deathCount: 0  // Track number of deaths for increasing respawn time
                 });
             }
         }
 
         // Generate bots (Red team enemies)
         function generateBots() {
-            const numBots = 6;
+            const numBots = numBotsPerTeam;
             for (let i = 0; i < numBots; i++) {
                 const spawnPos = getSafeSpawnPositionInZone(15, redSpawnZone);
                 
@@ -596,8 +983,8 @@
                     friction: 0.88,
                     color: '#ff4444',
                     team: 'red',
-                    targetX: 0,
-                    targetY: 0,
+                    targetX: MAP_SIZE / 2,  // Start by targeting key at center
+                    targetY: MAP_SIZE / 2,
                     shootTimer: 0,
                     hideTimer: 0,
                     stuckCounter: 0,
@@ -609,13 +996,14 @@
                     maxHealth: 100,
                     ammo: maxAmmo,
                     maxAmmo: maxAmmo,
-                    reserveAmmo: maxAmmo,
+                    reserveAmmo: 10,  // Always 10, same as player
                     isReloading: false,
                     reloadStartTime: 0,
                     reloadDuration: reloadDuration,
                     lastShotTime: 0,
                     fireRate: fireRate,
-                    weapon: randomWeapon  // New property for bot weapon
+                    weapon: randomWeapon,  // New property for bot weapon
+                    deathCount: 0  // Track number of deaths for increasing respawn time
                 });
             }
         }
@@ -627,7 +1015,8 @@
                 x: spawnPos.x,
                 y: spawnPos.y,
                 radius: 8,
-                color: '#ffff00'
+                color: '#ffff00',
+                respawnTime: null  // Track when item should respawn
             });
         }
         
@@ -639,31 +1028,86 @@
                 y: spawnPos.y,
                 radius: 10,
                 color: '#ff0066',
-                healAmount: 30
+                healAmount: 30,
+                respawnTime: null  // Track when item should respawn
             });
         }
+        
+        // Reset game state
+        function resetGame() {
+            // Clear arrays
+            teammates.length = 0;
+            bots.length = 0;
+            bullets.length = 0;
+            collectibles.length = 0;
+            healthPots.length = 0;
+            obstacles.length = 0;
+            
+            // Reset player
+            player.health = player.maxHealth;
+            player.alive = true;
+            player.respawning = false;
+            player.deathCount = 0;
+            player.vx = 0;
+            player.vy = 0;
+            
+            // Reset camera
+            camera.x = 0;
+            camera.y = 0;
+            
+            // Reset game variables
+            score = 0;
+            bulletsCollected = 0;
+            reserveAmmo = 10;
+            hasKey = false;
+            currentFireMode = 0;
+            isReloading = false;
+            
+            // Reset key
+            key.collected = false;
+            key.holder = null;
+            key.holderTeam = null;
+            
+            // Reset doors
+            doors[0].open = false;
+            doors[1].open = false;
+            
+            // Reset ammo
+            currentAmmo = {
+                'NORMAL': 10,
+                'TRIPLE': 10,
+                'SNIPER': 5
+            };
+            
+            // Update HUD
+            document.getElementById('health').textContent = player.maxHealth;
+            document.getElementById('ammo').textContent = currentAmmo[FIRE_MODES[currentFireMode]];
+            document.getElementById('maxAmmo').textContent = ammoCapacity[FIRE_MODES[currentFireMode]];
+            document.getElementById('reserve').textContent = reserveAmmo;
+            document.getElementById('score').textContent = score;
+            document.getElementById('fireMode').textContent = FIRE_MODES[currentFireMode];
+            document.getElementById('reloadStatus').textContent = '';
+            document.getElementById('objective').textContent = 'Find the KEY 🔑 and bring it to DOOR B!';
+        }
 
-        // Initialize
-        generateObstacles();
-        
-        // Position player in green spawn zone
-        const playerSpawn = getSafeSpawnPositionInZone(player.radius, greenSpawnZone);
-        player.x = playerSpawn.x;
-        player.y = playerSpawn.y;
-        
-        // Position key in a safe location (away from spawn zones)
-        let keySpawn;
-        do {
-            keySpawn = getSafeSpawnPosition(key.radius);
-        } while (Math.hypot(keySpawn.x - player.x, keySpawn.y - player.y) < 500);
-        key.x = keySpawn.x;
-        key.y = keySpawn.y;
-        
-        generateTeammates();
-        generateBots();
-        for (let i = 0; i < 150; i++) spawnCollectible(); // Increased for larger map
-        for (let i = 0; i < 50; i++) spawnHealthPot(); // Increased for larger map
-
+        // Initialize game
+        function initGame() {
+            generateObstacles();
+            
+            // Position player in green spawn zone
+            const playerSpawn = getSafeSpawnPositionInZone(player.radius, greenSpawnZone);
+            player.x = playerSpawn.x;
+            player.y = playerSpawn.y;
+            
+            // Position key exactly at the center of the map
+            key.x = MAP_SIZE / 2;
+            key.y = MAP_SIZE / 2;
+            
+            generateTeammates();
+            generateBots();
+            for (let i = 0; i < 150; i++) spawnCollectible();
+            for (let i = 0; i < 50; i++) spawnHealthPot();
+        }
         // Mouse tracking and shooting
         canvas.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
@@ -692,6 +1136,20 @@
 
         // Keyboard input
         window.addEventListener('keydown', (e) => {
+            // ESC to pause/unpause
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                if (gameState === 'playing') {
+                    pauseGame();
+                } else if (gameState === 'paused') {
+                    resumeGame();
+                }
+                return;
+            }
+            
+            // Only process other keys if playing
+            if (gameState !== 'playing') return;
+            
             keys[e.key.toLowerCase()] = true;
             
             if (e.key === ' ') {
@@ -711,6 +1169,7 @@
         });
 
         window.addEventListener('keyup', (e) => {
+            if (gameState !== 'playing') return;
             keys[e.key.toLowerCase()] = false;
         });
         
@@ -1285,8 +1744,7 @@
                     if (distToDoor < 100) { // Within 100 units of door center
                         objectiveDoor.open = true;
                         setTimeout(() => {
-                            alert('GREEN TEAM WINS! The key reached Door B!');
-                            location.reload();
+                            showVictory('green');
                         }, 100);
                     }
                 }
@@ -1302,8 +1760,7 @@
                     if (distToDoor < 100) { // Within 100 units of door center
                         objectiveDoor.open = true;
                         setTimeout(() => {
-                            alert('RED TEAM WINS! The key reached Door A!');
-                            location.reload();
+                            showVictory('red');
                         }, 100);
                     }
                 }
@@ -1313,21 +1770,28 @@
             for (let i = collectibles.length - 1; i >= 0; i--) {
                 const collectible = collectibles[i];
                 
+                // Skip if waiting to respawn
+                if (collectible.respawnTime !== null) {
+                    // Check if 30 seconds have passed
+                    if (Date.now() >= collectible.respawnTime) {
+                        collectible.respawnTime = null; // Make visible again
+                    }
+                    continue;
+                }
+                
                 // Player collection
                 if (checkCollision(player, collectible)) {
-                    collectibles.splice(i, 1);
+                    collectible.respawnTime = Date.now() + 30000; // Respawn in 30 seconds
                     reserveAmmo += 1; // Each collectible gives 1 bullet
                     bulletsCollected++;
-                    spawnCollectible();
                     continue;
                 }
                 
                 // Teammate collection
                 for (const teammate of teammates) {
                     if (teammate.alive && checkCollision(teammate, collectible)) {
-                        collectibles.splice(i, 1);
+                        collectible.respawnTime = Date.now() + 30000; // Respawn in 30 seconds
                         teammate.reserveAmmo += 1;
-                        spawnCollectible();
                         break;
                     }
                 }
@@ -1335,9 +1799,8 @@
                 // Bot collection
                 for (const bot of bots) {
                     if (bot.alive && checkCollision(bot, collectible)) {
-                        collectibles.splice(i, 1);
+                        collectible.respawnTime = Date.now() + 30000; // Respawn in 30 seconds
                         bot.reserveAmmo += 1;
-                        spawnCollectible();
                         break;
                     }
                 }
@@ -1347,11 +1810,19 @@
             for (let i = healthPots.length - 1; i >= 0; i--) {
                 const healthPot = healthPots[i];
                 
+                // Skip if waiting to respawn
+                if (healthPot.respawnTime !== null) {
+                    // Check if 30 seconds have passed
+                    if (Date.now() >= healthPot.respawnTime) {
+                        healthPot.respawnTime = null; // Make visible again
+                    }
+                    continue;
+                }
+                
                 // Player collection
                 if (checkCollision(player, healthPot)) {
                     player.health = Math.min(player.maxHealth, player.health + healthPot.healAmount);
-                    healthPots.splice(i, 1);
-                    spawnHealthPot();
+                    healthPot.respawnTime = Date.now() + 30000; // Respawn in 30 seconds
                     continue;
                 }
                 
@@ -1359,8 +1830,7 @@
                 for (const teammate of teammates) {
                     if (teammate.alive && checkCollision(teammate, healthPot)) {
                         teammate.health = Math.min(teammate.maxHealth, teammate.health + healthPot.healAmount);
-                        healthPots.splice(i, 1);
-                        spawnHealthPot();
+                        healthPot.respawnTime = Date.now() + 30000; // Respawn in 30 seconds
                         break;
                     }
                 }
@@ -1369,8 +1839,7 @@
                 for (const bot of bots) {
                     if (bot.alive && checkCollision(bot, healthPot)) {
                         bot.health = Math.min(bot.maxHealth, bot.health + healthPot.healAmount);
-                        healthPots.splice(i, 1);
-                        spawnHealthPot();
+                        healthPot.respawnTime = Date.now() + 30000; // Respawn in 30 seconds
                         break;
                     }
                 }
@@ -1401,9 +1870,9 @@
                 const assignedDoor = doors[1]; // Door B
                 const distToDoor = Math.hypot(assignedDoor.x - teammate.x, assignedDoor.y - teammate.y);
                 
-                // Seek ammo if critically low
+                // Seek ammo if out of reserve ammo
                 let seekingAmmo = false;
-                if (teammate.reserveAmmo < 10 && teammate.ammo < 5) {
+                if (teammate.reserveAmmo === 0) {
                     seekingAmmo = true;
                     let nearestCollectible = null;
                     let nearestDist = Infinity;
@@ -1414,15 +1883,15 @@
                             nearestCollectible = collectible;
                         }
                     }
-                    if (nearestCollectible && nearestDist < 600) {
+                    if (nearestCollectible) {
                         teammate.targetX = nearestCollectible.x;
                         teammate.targetY = nearestCollectible.y;
                     }
                 }
                 
-                // Seek health if critically low
+                // Seek health if at 20% health or lower
                 let seekingHealth = false;
-                if (teammate.health < 40) {
+                if (teammate.health <= teammate.maxHealth * 0.2) {
                     seekingHealth = true;
                     let nearestHealthPot = null;
                     let nearestHealthDist = Infinity;
@@ -1433,7 +1902,7 @@
                             nearestHealthPot = healthPot;
                         }
                     }
-                    if (nearestHealthPot && nearestHealthDist < 600) {
+                    if (nearestHealthPot) {
                         teammate.targetX = nearestHealthPot.x;
                         teammate.targetY = nearestHealthPot.y;
                     }
@@ -1446,13 +1915,16 @@
                     shouldSeekKey = true;
                 }
                 
-                // If this teammate should seek the key and isn't in urgent combat
-                if (shouldSeekKey && !seekingAmmo && !seekingHealth && (!nearestEnemy || distToEnemy > 400)) {
-                    // Always pursue key directly - don't stop until collected
-                    teammate.targetX = key.x;
-                    teammate.targetY = key.y;
-                    isSeekingKey = true;
-                    teammate.state = 'roam'; // Stay in roam to avoid combat override
+                // If this teammate should seek the key - more aggressive pursuit
+                if (shouldSeekKey && !seekingAmmo && !seekingHealth) {
+                    // Pursue key unless in immediate close combat
+                    if (!nearestEnemy || distToEnemy > 300) {
+                        // Always pursue key directly when no close enemies
+                        teammate.targetX = key.x;
+                        teammate.targetY = key.y;
+                        isSeekingKey = true;
+                        teammate.state = 'roam'; // Stay in roam to avoid combat override
+                    }
                 }
                 
                 // Priority 2: If teammate has the key, go to objective door (Door B)
@@ -1464,8 +1936,17 @@
                 
                 // State machine
                 if (teammate.state === 'roam') {
-                    // Prioritize combat - if enemy is nearby, engage them (increased range)
-                    if (nearestEnemy && distToEnemy < 900 && hasLOS && (teammate.ammo > 0 || !seekingAmmo) && !isSeekingKey) {
+                    // When seeking key, DON'T switch to attack unless enemy is very close
+                    if (isSeekingKey) {
+                        // Keep pursuing the key, only stop for very close combat
+                        if (nearestEnemy && distToEnemy < 200 && hasLOS && teammate.ammo > 0) {
+                            teammate.state = 'attack';
+                            teammate.hideTimer = 0;
+                            teammate.stuckCounter = 0;
+                        }
+                        // Don't reset target when close to key - keep moving to exact position
+                    } else if (nearestEnemy && distToEnemy < 900 && hasLOS && (teammate.ammo > 0 || !seekingAmmo)) {
+                        // Not seeking key, engage in normal combat
                         teammate.state = 'attack';
                         teammate.hideTimer = 0;
                         teammate.stuckCounter = 0;
@@ -1513,13 +1994,55 @@
                         }
                     }
                     
+                    // Calculate teammate speed for weapon switching
+                    const teammateSpeed = Math.sqrt(teammate.vx * teammate.vx + teammate.vy * teammate.vy);
+                    
+                    // DYNAMIC WEAPON SWITCHING based on combat scenario
+                    if (nearestEnemy && !teammate.isReloading) {
+                        let optimalWeapon = teammate.weapon; // Keep current weapon by default
+                        
+                        // Determine optimal weapon based on distance and situation
+                        if (distToEnemy < 200) {
+                            // Close range: Use TRIPLE (shotgun-like spread)
+                            optimalWeapon = 'TRIPLE';
+                        } else if (distToEnemy > 600 && hasLOS && teammateSpeed < 1) {
+                            // Far range with clear shot and teammate is stationary: Use SNIPER
+                            optimalWeapon = 'SNIPER';
+                        } else {
+                            // Medium range: Use NORMAL
+                            optimalWeapon = 'NORMAL';
+                        }
+                        
+                        // Switch weapon if needed and update stats accordingly
+                        if (optimalWeapon !== teammate.weapon) {
+                            const oldWeapon = teammate.weapon;
+                            teammate.weapon = optimalWeapon;
+                            
+                            // Update weapon-specific stats
+                            if (optimalWeapon === 'SNIPER') {
+                                teammate.fireRate = 2000;
+                                teammate.reloadDuration = 5000;
+                                teammate.maxAmmo = 5;
+                                // If switching from another weapon with more ammo, cap it
+                                teammate.ammo = Math.min(teammate.ammo, 5);
+                            } else if (optimalWeapon === 'TRIPLE') {
+                                teammate.fireRate = 500;
+                                teammate.reloadDuration = 1000;
+                                teammate.maxAmmo = 10;
+                            } else { // NORMAL
+                                teammate.fireRate = 500;
+                                teammate.reloadDuration = 1000;
+                                teammate.maxAmmo = 10;
+                            }
+                        }
+                    }
+                    
                     const currentTime = Date.now();
                     const timeSinceLastShot = currentTime - teammate.lastShotTime;
                     const isPlayerMoving = nearestEnemy ? Math.hypot(nearestEnemy.vx, nearestEnemy.vy) > 0.5 : false;
                     const angleToEnemy = nearestEnemy ? Math.atan2(nearestEnemy.y - teammate.y, nearestEnemy.x - teammate.x) : 0;
                     const teammateMovementAngle = Math.atan2(teammate.targetY - teammate.y, teammate.targetX - teammate.x);
                     const angleDiff = Math.abs(angleToEnemy - teammateMovementAngle);
-                    const teammateSpeed = Math.sqrt(teammate.vx * teammate.vx + teammate.vy * teammate.vy);
                     const isAccurateShot = nearestEnemy && hasLOS && 
                                           distToEnemy < 500 && 
                                           distToEnemy > 100 &&
@@ -1779,9 +2302,9 @@
                 const assignedDoor = doors[botIndex % 2]; // Distribute bots between doors
                 const distToDoor = Math.hypot(assignedDoor.x - bot.x, assignedDoor.y - bot.y);
                 
-                // Bots should seek ammo if low
+                // Bots should seek ammo if out of reserve ammo
                 let seekingAmmo = false;
-                if (bot.reserveAmmo < 10 && bot.ammo < 5) {
+                if (bot.reserveAmmo === 0) {
                     seekingAmmo = true;
                     // Find nearest collectible
                     let nearestCollectible = null;
@@ -1793,15 +2316,15 @@
                             nearestCollectible = collectible;
                         }
                     }
-                    if (nearestCollectible && nearestDist < 600) {
+                    if (nearestCollectible) {
                         bot.targetX = nearestCollectible.x;
                         bot.targetY = nearestCollectible.y;
                     }
                 }
                 
-                // Bots should seek health if low
+                // Bots should seek health if at 20% health or lower
                 let seekingHealth = false;
-                if (bot.health < 40) {
+                if (bot.health <= bot.maxHealth * 0.2) {
                     seekingHealth = true;
                     let nearestHealthPot = null;
                     let nearestHealthDist = Infinity;
@@ -1812,7 +2335,7 @@
                             nearestHealthPot = healthPot;
                         }
                     }
-                    if (nearestHealthPot && nearestHealthDist < 600) {
+                    if (nearestHealthPot) {
                         bot.targetX = nearestHealthPot.x;
                         bot.targetY = nearestHealthPot.y;
                     }
@@ -1825,13 +2348,16 @@
                     shouldSeekKey = true;
                 }
                 
-                // If this bot should seek the key and isn't in urgent combat
-                if (shouldSeekKey && !seekingAmmo && !seekingHealth && (!nearestEnemy || distToEnemy > 400)) {
-                    // Always pursue key directly - don't stop until collected
-                    bot.targetX = key.x;
-                    bot.targetY = key.y;
-                    isSeekingKey = true;
-                    bot.state = 'roam'; // Stay in roam to avoid combat override
+                // If this bot should seek the key - more aggressive pursuit
+                if (shouldSeekKey && !seekingAmmo && !seekingHealth) {
+                    // Pursue key unless in immediate close combat
+                    if (!nearestEnemy || distToEnemy > 300) {
+                        // Always pursue key directly when no close enemies
+                        bot.targetX = key.x;
+                        bot.targetY = key.y;
+                        isSeekingKey = true;
+                        bot.state = 'roam'; // Stay in roam to avoid combat override
+                    }
                 }
                 
                 // Priority 2: If bot has the key, go to objective door (Door A)
@@ -1843,8 +2369,17 @@
                 
                 // State machine
                 if (bot.state === 'roam') {
-                    // Prioritize combat - if green team member nearby, engage immediately (increased range)
-                    if (nearestEnemy && distToEnemy < 900 && hasLOS && (bot.ammo > 0 || !seekingAmmo) && !isSeekingKey) {
+                    // When seeking key, DON'T switch to attack unless enemy is very close
+                    if (isSeekingKey) {
+                        // Keep pursuing the key, only stop for very close combat
+                        if (nearestEnemy && distToEnemy < 200 && hasLOS && bot.ammo > 0) {
+                            bot.state = 'attack';
+                            bot.hideTimer = 0;
+                            bot.stuckCounter = 0;
+                        }
+                        // Don't reset target when close to key - keep moving to exact position
+                    } else if (nearestEnemy && distToEnemy < 900 && hasLOS && (bot.ammo > 0 || !seekingAmmo)) {
+                        // Not seeking key, engage in normal combat
                         bot.state = 'attack';
                         bot.hideTimer = 0;
                         bot.stuckCounter = 0;
@@ -1895,6 +2430,49 @@
                         }
                     }
                     
+                    // Calculate bot speed for weapon switching
+                    const botSpeed = Math.sqrt(bot.vx * bot.vx + bot.vy * bot.vy);
+                    
+                    // DYNAMIC WEAPON SWITCHING based on combat scenario
+                    if (nearestEnemy && !bot.isReloading) {
+                        let optimalWeapon = bot.weapon; // Keep current weapon by default
+                        
+                        // Determine optimal weapon based on distance and situation
+                        if (distToEnemy < 200) {
+                            // Close range: Use TRIPLE (shotgun-like spread)
+                            optimalWeapon = 'TRIPLE';
+                        } else if (distToEnemy > 600 && hasLOS && botSpeed < 1) {
+                            // Far range with clear shot and bot is stationary: Use SNIPER
+                            optimalWeapon = 'SNIPER';
+                        } else {
+                            // Medium range: Use NORMAL
+                            optimalWeapon = 'NORMAL';
+                        }
+                        
+                        // Switch weapon if needed and update stats accordingly
+                        if (optimalWeapon !== bot.weapon) {
+                            const oldWeapon = bot.weapon;
+                            bot.weapon = optimalWeapon;
+                            
+                            // Update weapon-specific stats
+                            if (optimalWeapon === 'SNIPER') {
+                                bot.fireRate = 2000;
+                                bot.reloadDuration = 5000;
+                                bot.maxAmmo = 5;
+                                // If switching from another weapon with more ammo, cap it
+                                bot.ammo = Math.min(bot.ammo, 5);
+                            } else if (optimalWeapon === 'TRIPLE') {
+                                bot.fireRate = 500;
+                                bot.reloadDuration = 1000;
+                                bot.maxAmmo = 10;
+                            } else { // NORMAL
+                                bot.fireRate = 500;
+                                bot.reloadDuration = 1000;
+                                bot.maxAmmo = 10;
+                            }
+                        }
+                    }
+                    
                     // Intelligent shooting - only shoot when conditions are favorable
                     const currentTime = Date.now();
                     const timeSinceLastShot = currentTime - bot.lastShotTime;
@@ -1907,7 +2485,6 @@
                     const botMovementAngle = Math.atan2(bot.targetY - bot.y, bot.targetX - bot.x);
                     const angleDiff = Math.abs(angleToEnemy - botMovementAngle);
                     
-                    const botSpeed = Math.sqrt(bot.vx * bot.vx + bot.vy * bot.vy);
                     const isAccurateShot = nearestEnemy && hasLOS && 
                                           distToEnemy < 500 && 
                                           distToEnemy > 100 && 
@@ -2199,7 +2776,9 @@
                             if (bots[j].health <= 0) {
                                 bots[j].alive = false;
                                 bots[j].health = 0;
+                                bots[j].deathCount++; // Increment death counter
                                 score += 100;
+                                enemiesKilled++; // Track kills for victory screen
                                 
                                 // Drop key if this bot had it
                                 if (key.collected && key.holder === bots[j]) {
@@ -2209,7 +2788,12 @@
                                     // Key stays at death position
                                 }
                                 
-                                // Respawn bot after 2 second delay
+                                // Base respawn time of 2 seconds + 2 seconds per death
+                                const baseRespawnTime = 2000;
+                                const additionalTime = bots[j].deathCount * 2000;
+                                const totalRespawnTime = baseRespawnTime + additionalTime;
+                                
+                                // Respawn bot after calculated delay
                                 setTimeout(() => {
                                     const respawnPos = getSafeSpawnPositionInZone(15, redSpawnZone);
                                     bots[j].alive = true;
@@ -2223,7 +2807,7 @@
                                     bots[j].isReloading = false;
                                     bots[j].lastShotTime = 0;
                                     bots[j].state = 'roam';
-                                }, 2000);
+                                }, totalRespawnTime);
                             }
                             break;
                         }
@@ -2246,7 +2830,13 @@
                             player.health = 0;
                             player.alive = false; // Hide player
                             player.respawning = true; // Start respawn sequence
-                            player.respawnTime = Date.now() + 2000; // Set respawn time
+                            player.deathCount++; // Increment death counter
+                            
+                            // Base respawn time of 2 seconds + 2 seconds per death
+                            const baseRespawnTime = 2000;
+                            const additionalTime = player.deathCount * 2000;
+                            const totalRespawnTime = baseRespawnTime + additionalTime;
+                            player.respawnTime = Date.now() + totalRespawnTime;
                             
                             // Save death position
                             const deathX = player.x;
@@ -2280,9 +2870,9 @@
                             const targetCameraX = respawnX - canvas.width / (2 * zoomFactor);
                             const targetCameraY = respawnY - canvas.height / (2 * zoomFactor);
                             const panStartTime = Date.now();
-                            const panDuration = 2000;
+                            const panDuration = Math.min(totalRespawnTime, 2000); // Cap camera pan at 2 seconds
                             
-                            // Smoothly pan camera to respawn location over 2 seconds
+                            // Smoothly pan camera to respawn location
                             const cameraPanInterval = setInterval(() => {
                                 if (!player.respawning) {
                                     clearInterval(cameraPanInterval);
@@ -2309,7 +2899,7 @@
                                 }
                             }, 16); // 60fps
                             
-                            // Respawn after 2 second delay - teleport instantly to the position
+                            // Respawn after calculated delay
                             setTimeout(() => {
                                 player.x = respawnX;
                                 player.y = respawnY;
@@ -2318,7 +2908,7 @@
                                 player.health = player.maxHealth;
                                 player.alive = true;
                                 player.respawning = false;
-                            }, 2000);
+                            }, totalRespawnTime);
                         }
                         continue;
                     }
@@ -2339,6 +2929,7 @@
                             if (teammates[j].health <= 0) {
                                 teammates[j].alive = false;
                                 teammates[j].health = 0;
+                                teammates[j].deathCount++; // Increment death counter
                                 
                                 // Drop key if this teammate had it
                                 if (key.collected && key.holder === teammates[j]) {
@@ -2348,7 +2939,12 @@
                                     // Key stays at death position
                                 }
                                 
-                                // Respawn teammate after 2 second delay
+                                // Base respawn time of 2 seconds + 2 seconds per death
+                                const baseRespawnTime = 2000;
+                                const additionalTime = teammates[j].deathCount * 2000;
+                                const totalRespawnTime = baseRespawnTime + additionalTime;
+                                
+                                // Respawn teammate after calculated delay
                                 setTimeout(() => {
                                     const respawnPos = getSafeSpawnPositionInZone(15, greenSpawnZone);
                                     teammates[j].alive = true;
@@ -2361,7 +2957,7 @@
                                     teammates[j].reserveAmmo = 10;
                                     teammates[j].isReloading = false;
                                     teammates[j].lastShotTime = 0;
-                                }, 2000);
+                                }, totalRespawnTime);
                             }
                             break;
                         }
@@ -2603,9 +3199,131 @@
             ctx.lineWidth = 2;
             ctx.strokeText('🔑', key.x, key.y + 10);
 
+            // Draw golden arrow pointing to key or key holder (ALWAYS ON)
+            if (player.alive) {
+                // Determine target position (key location or holder)
+                let targetX = key.x;
+                let targetY = key.y;
+                let arrowLabel = "KEY";
+                let arrowColor = '#FFD700'; // Gold
+                let outlineColor = '#FFA500'; // Orange
+                
+                // If key is collected, point to the holder
+                if (key.collected && key.holder) {
+                    if (key.holder === player) {
+                        // Player has key - no arrow needed
+                        targetX = null;
+                    } else if (key.holder === 'player') {
+                        targetX = null;
+                    } else {
+                        // Someone else has the key
+                        targetX = key.holder.x;
+                        targetY = key.holder.y;
+                        
+                        if (key.holderTeam === 'green') {
+                            arrowLabel = "TEAMMATE";
+                            arrowColor = '#00FF00'; // Green
+                            outlineColor = '#00AA00';
+                        } else {
+                            arrowLabel = "ENEMY";
+                            arrowColor = '#FF0000'; // Red
+                            outlineColor = '#AA0000';
+                        }
+                    }
+                }
+                
+                // Only draw arrow if there's a valid target
+                if (targetX !== null) {
+                    const arrowDistance = 100; // Distance from player to arrow
+                    const angleToTarget = Math.atan2(targetY - player.y, targetX - player.x);
+                    
+                    // Arrow position (offset from player)
+                    const arrowX = player.x + Math.cos(angleToTarget) * arrowDistance;
+                    const arrowY = player.y + Math.sin(angleToTarget) * arrowDistance;
+                    
+                    // Pulsing effect for arrow
+                    const arrowPulse = Math.sin(Date.now() / 150) * 0.3 + 0.7; // 0.7 to 1.0
+                    const arrowSize = 20 * arrowPulse;
+                    
+                    ctx.save();
+                    ctx.translate(arrowX, arrowY);
+                    ctx.rotate(angleToTarget);
+                    
+                    // Draw glowing aura around arrow
+                    const arrowGlow = ctx.createRadialGradient(0, 0, 0, 0, 0, arrowSize + 15);
+                    // Use appropriate color for glow
+                    const glowR = parseInt(arrowColor.substring(1, 3), 16);
+                    const glowG = parseInt(arrowColor.substring(3, 5), 16);
+                    const glowB = parseInt(arrowColor.substring(5, 7), 16);
+                    arrowGlow.addColorStop(0, `rgba(${glowR}, ${glowG}, ${glowB}, 0.8)`);
+                    arrowGlow.addColorStop(0.5, `rgba(${glowR}, ${glowG}, ${glowB}, 0.4)`);
+                    arrowGlow.addColorStop(1, `rgba(${glowR}, ${glowG}, ${glowB}, 0)`);
+                    ctx.fillStyle = arrowGlow;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, arrowSize + 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw arrow shape
+                    ctx.fillStyle = arrowColor;
+                    ctx.strokeStyle = outlineColor;
+                    ctx.lineWidth = 2;
+                    
+                    ctx.beginPath();
+                    // Arrow point
+                    ctx.moveTo(arrowSize, 0);
+                    // Upper edge
+                    ctx.lineTo(-arrowSize * 0.5, -arrowSize * 0.7);
+                    // Inner upper notch
+                    ctx.lineTo(-arrowSize * 0.5, -arrowSize * 0.3);
+                    // Back
+                    ctx.lineTo(-arrowSize, -arrowSize * 0.3);
+                    ctx.lineTo(-arrowSize, arrowSize * 0.3);
+                    // Inner lower notch
+                    ctx.lineTo(-arrowSize * 0.5, arrowSize * 0.3);
+                    // Lower edge
+                    ctx.lineTo(-arrowSize * 0.5, arrowSize * 0.7);
+                    ctx.closePath();
+                    
+                    ctx.fill();
+                    ctx.stroke();
+                    
+                    // Add shine effect
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                    ctx.beginPath();
+                    ctx.moveTo(arrowSize * 0.7, 0);
+                    ctx.lineTo(-arrowSize * 0.3, -arrowSize * 0.4);
+                    ctx.lineTo(-arrowSize * 0.3, arrowSize * 0.4);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    ctx.restore();
+                    
+                    // Draw label and distance text
+                    const distToTarget = Math.hypot(targetX - player.x, targetY - player.y);
+                    ctx.fillStyle = arrowColor;
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 3;
+                    ctx.font = 'bold 16px Arial';
+                    ctx.textAlign = 'center';
+                    
+                    // Label (KEY, TEAMMATE, or ENEMY)
+                    ctx.strokeText(arrowLabel, arrowX, arrowY - 45);
+                    ctx.fillText(arrowLabel, arrowX, arrowY - 45);
+                    
+                    // Distance
+                    if (distToTarget > 200) {
+                        const distText = Math.floor(distToTarget) + 'm';
+                        ctx.strokeText(distText, arrowX, arrowY - 28);
+                        ctx.fillText(distText, arrowX, arrowY - 28);
+                    }
+                }
+            }
 
             // Draw collectibles
             for (const collectible of collectibles) {
+                // Skip if waiting to respawn
+                if (collectible.respawnTime !== null) continue;
+                
                 ctx.fillStyle = collectible.color;
                 ctx.beginPath();
                 ctx.arc(collectible.x, collectible.y, collectible.radius, 0, Math.PI * 2);
@@ -2617,6 +3335,9 @@
             
             // Draw health pots
             for (const healthPot of healthPots) {
+                // Skip if waiting to respawn
+                if (healthPot.respawnTime !== null) continue;
+                
                 ctx.fillStyle = healthPot.color;
                 ctx.beginPath();
                 ctx.arc(healthPot.x, healthPot.y, healthPot.radius, 0, Math.PI * 2);
@@ -2986,13 +3707,15 @@
 
         // Game loop
         function gameLoop() {
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
+            if (gameState === 'playing') {
+                update();
+                draw();
+            }
+            animationFrameId = requestAnimationFrame(gameLoop);
         }
 
-        // Start game
-        gameLoop();
+        // Don't start game loop automatically - wait for menu
+        // gameLoop() will be called by startGame()
 
         // Handle window resize
         window.addEventListener('resize', () => {
